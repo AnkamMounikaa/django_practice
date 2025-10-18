@@ -1,0 +1,32 @@
+# Python
+*.pyc
+__pycache__/
+
+# Environment / secrets
+.env
+*.env
+
+# Database
+db.sqlite3
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Django static & media (if you build them locally)
+staticfiles/
+static/
+media/
+
+# IDEs
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Mac
+.DS_Store
+
+sample_pro/
