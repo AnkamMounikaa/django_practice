@@ -75,11 +75,12 @@ WSGI_APPLICATION = 'ser_pro.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_db',
+        'ENGINE':'django.db.backends.mysql',
+        'NAME':'django_db',
         'USER':'root',
-        'PASSWORD':'monu@2389'
-        ''
+        'PASSWORD':'Monu@2389',
+        'HOST':'localhost',
+        'PORT':'3306'
     }
 }
 
