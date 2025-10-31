@@ -9,6 +9,7 @@ details=[
     {"id":2, "name":"satya","batch":41}
 ]
 # Post Method
+
 @csrf_exempt
 def post_method(req):
     if req.method == "POST":
