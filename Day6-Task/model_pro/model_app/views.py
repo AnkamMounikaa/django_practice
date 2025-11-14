@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Coders
+
+def msg(req):
+    return HttpResponse("hello")
 @csrf_exempt
 def add_coder(request):
     user_name=request.POST.get("username")
