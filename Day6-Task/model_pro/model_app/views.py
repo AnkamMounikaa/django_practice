@@ -9,7 +9,6 @@ def msg(req):
 def add_coder(request):
     user_name=request.POST.get("username")
     user_age=request.POST.get("userage")
-    
     coder = Coders.objects.create(name=user_name, age=user_age)
     coder.save()
     return JsonResponse({"message": "Coder added successfully!", "coder_id": coder.id})
