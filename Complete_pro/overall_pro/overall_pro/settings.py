@@ -77,11 +77,11 @@ WSGI_APPLICATION = 'overall_pro.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_db',
+        'NAME': env("DB_NAME"),
         "USER":env("DB_USERNAME"),
         "PASSWORD":env("DB_PASSWORD"),
-        "HOST":"localhost",
-        "PORT":"3306"
+        "HOST":env("DB_HOST"),
+        "PORT":env("DB_PORT")
     }
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
