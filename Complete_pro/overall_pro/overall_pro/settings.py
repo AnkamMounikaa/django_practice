@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'overall_pro.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': env("DB_NAME"),
+        'NAME':env("DB_NAME"),
         "USER":env("DB_USERNAME"),
         "PASSWORD":env("DB_PASSWORD"),
         "HOST":env("DB_HOST"),
