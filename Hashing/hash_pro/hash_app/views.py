@@ -1,7 +1,4 @@
 from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render
 from django.http import JsonResponse,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -35,7 +32,8 @@ def reg_user(req):
         return HttpResponse("Employee already exists")
         
     else:
-        table=emp_data.objects.create(name=emp_name,salary=emp_salary,role=encrypt_role)
+        table=emp_data.objects.create( emp_name = emp_name,emp_salary = emp_salary,
+        emp_role = encrypt_role)
         return HttpResponse("emp registered successfully")
 
 @csrf_exempt
