@@ -13,10 +13,10 @@ import jwt
 import datetime
 import re
 from django.conf import settings
+from django.core.mail import send_mail,EmailMessage
 SECRET_KEY=settings.SECRET_KEY
 
-# ------------------------ BASIC ROUTES ------------------------
-
+# ---BASIC ROUTES ---
 def welcome(request):
     return HttpResponse("Welcome to app render")
 
@@ -25,7 +25,7 @@ def sample(request):
     return JsonResponse({"msg": "JSON response from Render"})
 
 
-# ------------------------ JWT VALIDATOR ------------------------
+# --- JWT VALIDATOR ---
 
 def is_valid_user(request):
     try:
@@ -34,13 +34,13 @@ def is_valid_user(request):
             return False
 
         data = jwt.decode(jwt=cookie_token, key=SECRET_KEY, algorithms=["HS256"])
-        return data      # return decoded payload
+        return data      
 
     except Exception:
         return False
 
 
-# ------------------------ REGISTER USER ------------------------
+# --- REGISTER USER ---
 
 @csrf_exempt
 def reg_user(request):
@@ -81,6 +81,20 @@ def reg_user(request):
             )
 
             serializer = CloudTableSerializer(new_user)
+            # send_mail(subject="welcome mail",
+            #           message="Welcome to the app!!",
+            #           recipient_list=[user_email],
+            #           from_email=settings.EMAIL_HOST_USER)
+            print("EMAIL PASS:", settings.EMAIL_HOST_PASSWORD)
+
+            send_mail(
+            subject="Welcome Mail",
+            message="Welcome to the app!!",
+            from_email=settings.EMAIL_HOST_USER,
+            recipient_list=[user_email],
+            fail_silently=False
+)
+
             return JsonResponse(
                 {"msg": "User created successfully!", "user": serializer.data},
                 status=201
@@ -92,7 +106,7 @@ def reg_user(request):
     return JsonResponse({"error": "Only POST method allowed"}, status=405)
 
 
-# ------------------------ GET ALL USERS ------------------------
+# ---GET ALL USERS---
 
 def get_users(request):
     if request.method == "GET":
@@ -110,7 +124,7 @@ def get_users(request):
     return JsonResponse({"error": "Only GET method allowed"}, status=405)
 
 
-# ------------------------ GET USER BY ID ------------------------
+# --- GET USER BY ID----
 
 def get_user_by_id(request, id):
     if request.method == "GET":
@@ -124,7 +138,7 @@ def get_user_by_id(request, id):
     return JsonResponse({"error": "Only GET method allowed"}, status=405)
 
 
-# ------------------------ UPDATE USER ------------------------
+# --- UPDATE USER ---
 
 @csrf_exempt
 def update_user(request, id):
@@ -132,7 +146,6 @@ def update_user(request, id):
         try:
             user = CloudTable.objects.get(id=id)
 
-            # Multipart or JSON
             if request.content_type.startswith("multipart/form-data"):
                 data = request.POST
                 new_image = request.FILES.get("profile")
@@ -189,7 +202,7 @@ def update_user(request, id):
     return JsonResponse({"error": "Only PUT method allowed"}, status=405)
 
 
-# ------------------------ DELETE USER ------------------------
+# --- DELETE USER---
 
 @csrf_exempt
 def delete_user(request, id):
@@ -204,7 +217,7 @@ def delete_user(request, id):
     return JsonResponse({"error": "Only DELETE method allowed"}, status=405)
 
 
-# ------------------------ LOGIN USER ------------------------
+# --- LOGIN USER ---
 
 @csrf_exempt
 def login_user(req):
@@ -240,8 +253,8 @@ def login_user(req):
     res.set_cookie(
         key="my_first_cookie",
         value=token,
-        httponly=True,       # JS cannot access
-        max_age=1800         # 30 minutes
+        httponly=True,       
+        max_age=1800        
     )
 
     return res

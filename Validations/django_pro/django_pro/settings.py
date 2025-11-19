@@ -10,12 +10,19 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+
+import environ
+import os
 from pathlib import Path
-import environ 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-env=environ.Env()
+import environ
+env = environ.Env()
 environ.Env.read_env()
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -38,7 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_app'
+    'django_app',
+    'cloudinary'
 ]
 
 MIDDLEWARE = [
@@ -80,12 +88,12 @@ DATABASES = {
     #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME':'django_db',
+        'ENGINE':'django.db.backends.mysql',
+        'NAME':env("DB_NAME"),
         "USER":env("DB_USERNAME"),
         "PASSWORD":env("DB_PASSWORD"),
-        "HOST":'localhost',
-        "PORT":3306
+        "HOST":env('DB_HOST'),
+        "PORT":env("DB_PORT")
     }
 }
 
@@ -130,3 +138,22 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+#cloudinary setup
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+cloudinary.config( 
+    cloud_name = env("CLOUD_NAME"), 
+    api_key = env("API_KEY"), 
+    api_secret =env("SECRET_CODE")
+)
+# email config
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "satyaankam76@gmail.com"
+EMAIL_HOST_PASSWORD ="hwgi neoi uyyu mval"  ##app password from google
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
