@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import render
+
 from .models import CloudTable
 from .serializers import CloudTableSerializer
 import json
@@ -87,13 +87,13 @@ def reg_user(request):
             #           from_email=settings.EMAIL_HOST_USER)
             print("EMAIL PASS:", settings.EMAIL_HOST_PASSWORD)
 
-            send_mail(
-            subject="Welcome Mail",
-            message="Welcome to the app!!",
-            from_email=settings.EMAIL_HOST_USER,
-            recipient_list=[user_email],
-            fail_silently=False
-)
+#             send_mail(
+#             subject="Welcome Mail",
+#             message="Welcome to the app!!",
+#             from_email=settings.EMAIL_HOST_USER,
+#             recipient_list=[user_email],
+#             fail_silently=False
+# )
 
             return JsonResponse(
                 {"msg": "User created successfully!", "user": serializer.data},
